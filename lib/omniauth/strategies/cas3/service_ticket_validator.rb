@@ -70,16 +70,7 @@ module OmniAuth
         # if the passed body is nil or if there is no such node.
         def find_authentication_success(body)
           return nil if body.nil? || body == ''
-          begin
-            doc = Nokogiri::XML(body)
-            begin
-              doc.xpath('/cas:serviceResponse/cas:authenticationSuccess')
-            rescue Nokogiri::XML::XPath::SyntaxError
-              doc.xpath('/serviceResponse/authenticationSuccess')
-            end
-          rescue Nokogiri::XML::XPath::SyntaxError
-            nil
-          end
+          body['data']['success']
         end
 
         # retrieves the `<cas:serviceResponse>` XML from the CAS server
